@@ -1,0 +1,30 @@
+# ./serverless.yml
+service: serverless-typescript-template
+
+plugins:
+  - serverless-esbuild # used for compiling/packaging the Typescript code
+  - serverless-offline # used for local execution
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-west-1
+
+custom:
+  customVariable1: Hello, World!
+
+functions:
+  # Serverless Framework specific syntax
+  hello:
+    handler: ./src/hello.handler
+    events:
+      - httpApi:
+          path: /api/products
+          method: GET
+
+  goodbye:
+    handler: ./src/goodbye.handler
+    events:
+      - httpApi:
+          path: /api/products/{id+}
+          method: GET
