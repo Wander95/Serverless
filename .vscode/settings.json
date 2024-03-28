@@ -2,7 +2,7 @@
   "cSpell.words": ["commitlint", "mantine", "Mantine", "nobee", "wanderdev"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   // "eslint.run": "onSave",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit"
@@ -13,4 +13,7 @@
     "**/*.code-search": true,
     "**/pnpm-lock.yaml": true
   },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

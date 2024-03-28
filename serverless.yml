@@ -1,30 +1,32 @@
 # ./serverless.yml
-service: serverless-typescript-template
+service: serverless-adoring-virus-lambda
 
 plugins:
-  - serverless-esbuild # used for compiling/packaging the Typescript code
+  # - serverless-esbuild # used for compiling/packaging the Typescript code
+  - serverless-plugin-typescript
   - serverless-offline # used for local execution
 
 provider:
   name: aws
   runtime: nodejs18.x
-  region: eu-west-1
+  region: us-east-1
+  httpApi:
+    name: serverless-adoring-virus-lambda-http
+    cors: true
 
-custom:
-  customVariable1: Hello, World!
 
 functions:
-  # Serverless Framework specific syntax
-  hello:
-    handler: ./src/hello.handler
+  get_all_products:
+    handler: ./src/functions/get-all/get-all.handler
     events:
       - httpApi:
           path: /api/products
           method: GET
 
-  goodbye:
-    handler: ./src/goodbye.handler
+  get_product_by_id:
+    handler: ./src/functions/get-by-id/get-by-id.handler
     events:
       - httpApi:
           path: /api/products/{id+}
           method: GET
+
