@@ -1,13 +1,17 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2, Handler } from 'aws-lambda';
-import { products } from '../constants';
 import { headers } from '../headers';
+import { StockTable } from '../stock.table';
 
-export const handler: Handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2<string>> => {
-  const foundProduct = products.find(product => {
-    return product.id === event.pathParameters?.id;
-  });
+export const handler: Handler = async (
+  event: APIGatewayProxyEventV2
+): Promise<APIGatewayProxyResultV2<string>> => {
+  const stockTable = new StockTable();
 
-  if (!foundProduct) {
+  if (!event.pathParameters?.id) return {};
+
+  const stock = await stockTable.getOne(event.pathParameters.id);
+
+  if (!stock) {
     return {
       statusCode: 400,
       headers,
@@ -19,6 +23,9 @@ export const handler: Handler = async (event: APIGatewayProxyEventV2): Promise<A
     statusCode: 200,
     headers,
 
-    body: JSON.stringify({ message: `Product ${foundProduct.id} found`, payload: foundProduct }),
+    body: JSON.stringify({
+      message: `Product ${stock.product_id} found`,
+      payload: stock,
+    }),
   };
 };
