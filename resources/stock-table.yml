@@ -1,5 +1,5 @@
 Resources:
-  ProductsTable:
+  StockTable:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: stock_table
