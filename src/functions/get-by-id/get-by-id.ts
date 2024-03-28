@@ -7,25 +7,33 @@ export const handler: Handler = async (
 ): Promise<APIGatewayProxyResultV2<string>> => {
   const stockTable = new StockTable();
 
-  if (!event.pathParameters?.id) return {};
+  try {
+    if (!event.pathParameters?.id) return {};
 
-  const stock = await stockTable.getOne(event.pathParameters.id);
+    const stock = await stockTable.getOne(event.pathParameters.id);
 
-  if (!stock) {
+    if (!stock) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ message: 'Not found', payload: null }),
+      };
+    }
+
     return {
-      statusCode: 400,
+      statusCode: 200,
       headers,
-      body: JSON.stringify({ message: 'Not found', payload: null }),
+
+      body: JSON.stringify({
+        message: `Product ${stock.product_id} found`,
+        payload: stock,
+      }),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ message: 'bob', error }),
     };
   }
-
-  return {
-    statusCode: 200,
-    headers,
-
-    body: JSON.stringify({
-      message: `Product ${stock.product_id} found`,
-      payload: stock,
-    }),
-  };
 };

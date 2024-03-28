@@ -33,7 +33,7 @@ export const handler: Handler = async (
     console.log(error);
     return {
       statusCode: 500,
-      body: 'bobo',
+      body: JSON.stringify({ message: 'bobo',  error })
     };
   }
 };
