@@ -4,8 +4,10 @@ service: serverless-adoring-virus-lambda
 plugins:
   # - serverless-esbuild # used for compiling/packaging the Typescript code
   - serverless-plugin-typescript
+  - serverless-tscpaths
+  - serverless-dynamodb
   - serverless-offline # used for local execution
-
+           
 provider:
   name: aws
   runtime: nodejs18.x
@@ -30,3 +32,14 @@ functions:
           path: /api/products/{id+}
           method: GET
 
+  create_product:
+    handler: ./src/functions/create/create.handler
+    events:
+      - httpApi:
+          path: /api/products
+          method: POST
+
+
+resources:
+  - ${file(resources/stock-table.yml)}
+  - ${file(resources/product-table.yml)}
