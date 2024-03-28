@@ -17,3 +17,5 @@
 [DynamoDB with Serverless Framework - The Ultimate Guide](https://dynobase.dev/dynamodb-serverless-framework/)
 
 [Number of attributes in key schema must match](https://stackoverflow.com/questions/30866030/number-of-attributes-in-key-schema-must-match-the-number-of-attributes-defined-i)
+
+[Example with roles](https://github.com/alexdebrie/serverless-dynamodb-scanner)
