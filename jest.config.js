@@ -12,8 +12,9 @@ module.exports = {
     },
   },
   moduleNameMapper: {
-    'src/(.*)': '<rootDir>/src/$1',
+    '@/(.*)': '<rootDir>/src/$1',
   },
+
   moduleDirectories: ['node_modules', 'src'],
-  testPathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/node_modules/'],
+  testPathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/node_modules/', '<rootDir>/.build/'],
 };
