@@ -30,7 +30,7 @@ export const handler: Handler = async (
       headers,
 
       body: JSON.stringify({
-        message: `Product ${product.id} found`,
+        message: `${product.title} product  found`,
         payload: product,
       }),
     };
