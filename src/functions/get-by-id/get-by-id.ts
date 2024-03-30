@@ -15,9 +15,9 @@ export const handler: Handler = async (
     const stockTable = new StockTable();
 
     const productStockTable = new ProductStockTable(productTable, stockTable);
-    const stock = await productStockTable.getOne(event.pathParameters.id);
+    const product = await productStockTable.getOne(event.pathParameters.id);
 
-    if (!stock) {
+    if (!product) {
       return {
         statusCode: 400,
         headers,
@@ -30,8 +30,8 @@ export const handler: Handler = async (
       headers,
 
       body: JSON.stringify({
-        message: `Product ${stock.product_id} found`,
-        payload: stock,
+        message: `Product ${product.id} found`,
+        payload: product,
       }),
     };
   } catch (error) {
