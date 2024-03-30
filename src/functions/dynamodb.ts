@@ -5,7 +5,14 @@ import 'dotenv/config';
 const clientOptions: DynamoDBClientConfig = {};
 
 if (process.env.ENV === 'dev') {
-  clientOptions.endpoint = process.env.DYNAMO_DB_ENDPOINT;
+  if (process.env.DYNAMO_DB_ENDPOINT) {
+    clientOptions.endpoint = process.env.DYNAMO_DB_ENDPOINT;
+  }
+
+  clientOptions.credentials = {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+  };
 }
 
 const client = new DynamoDBClient(clientOptions);
