@@ -1,3 +1,4 @@
+/** @type {import("eslint").Linter.Config} */
 module.exports = {
   env: {
     browser: true,
@@ -12,6 +13,15 @@ module.exports = {
     'plugin:prettier/recommended',
     'eslint-config-prettier',
   ],
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      typescript: true,
+      node: true,
+    },
+  },
   overrides: [
     {
       env: {
