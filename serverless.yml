@@ -12,10 +12,33 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
+  environment:
+    PRODUCT_TABLE: product_table
+    STOCK_TABLE: stock_table
   httpApi:
     name: serverless-adoring-virus-lambda-http
     cors: true
-
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.PRODUCT_TABLE}"
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.STOCK_TABLE}"
 
 functions:
   get_all_products:
@@ -29,7 +52,7 @@ functions:
     handler: ./src/functions/get-by-id/get-by-id.handler
     events:
       - httpApi:
-          path: /api/products/{id+}
+          path: /api/products/{id}
           method: GET
 
   create_product:
