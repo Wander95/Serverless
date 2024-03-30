@@ -1,16 +1,21 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2, Handler } from 'aws-lambda';
-import { headers } from '../headers';
-import { StockTable } from '../stock.table';
+
+import { headers } from '@/functions/headers';
+import { ProductStockTable } from '@/functions/product-stock';
+import { ProductTable } from '@/functions/product.table';
+import { StockTable } from '@/functions/stock.table';
 
 export const handler: Handler = async (
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2<string>> => {
-  const stockTable = new StockTable();
-
   try {
     if (!event.pathParameters?.id) return {};
 
-    const stock = await stockTable.getOne(event.pathParameters.id);
+    const productTable = new ProductTable();
+    const stockTable = new StockTable();
+
+    const productStockTable = new ProductStockTable(productTable, stockTable);
+    const stock = await productStockTable.getOne(event.pathParameters.id);
 
     if (!stock) {
       return {

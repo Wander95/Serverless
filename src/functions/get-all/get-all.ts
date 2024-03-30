@@ -1,12 +1,17 @@
 import { APIGatewayProxyResultV2, Handler } from 'aws-lambda';
 
 import { headers } from '@/functions/headers';
+import { ProductStockTable } from '@/functions/product-stock';
 import { ProductTable } from '@/functions/product.table';
+import { StockTable } from '@/functions/stock.table';
 
 export const handler: Handler = async (): Promise<APIGatewayProxyResultV2<string>> => {
   try {
-    const product = new ProductTable();
-    const products = await product.scan();
+    const productTable = new ProductTable();
+    const stockTable = new StockTable();
+
+    const productStockTable = new ProductStockTable(productTable, stockTable);
+    const products = await productStockTable.scan();
 
     return {
       statusCode: 200,
