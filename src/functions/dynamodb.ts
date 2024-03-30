@@ -2,13 +2,11 @@ import { DynamoDBClient, DynamoDBClientConfig } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import 'dotenv/config';
 
-let clientOptions: DynamoDBClientConfig = {};
+const clientOptions: DynamoDBClientConfig = {};
 
 if (process.env.ENV === 'dev') {
-  clientOptions.endpoint = 'http://192.168.0.4:8000';
+  clientOptions.endpoint = process.env.DYNAMO_DB_ENDPOINT;
 }
-
-console.log(process.env.ENV)
 
 const client = new DynamoDBClient(clientOptions);
 
