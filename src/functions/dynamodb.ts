@@ -2,13 +2,18 @@ import { DynamoDBClient, DynamoDBClientConfig } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import 'dotenv/config';
 
-let clientOptions: DynamoDBClientConfig = {};
+const clientOptions: DynamoDBClientConfig = {};
 
 if (process.env.ENV === 'dev') {
-  clientOptions.endpoint = 'http://192.168.0.4:8000';
-}
+  if (process.env.DYNAMO_DB_ENDPOINT) {
+    clientOptions.endpoint = process.env.DYNAMO_DB_ENDPOINT;
+  }
 
-console.log(process.env.ENV)
+  clientOptions.credentials = {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+  };
+}
 
 const client = new DynamoDBClient(clientOptions);
 

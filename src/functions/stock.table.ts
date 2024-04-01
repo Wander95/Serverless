@@ -7,9 +7,9 @@ export type Stock = {
   count: number;
 };
 
-type StockDto = Pick<Stock,'count'> & {
-  id: string
-}
+export type StockDto = Pick<Stock, 'count'> & {
+  id: string;
+};
 
 export class StockTable extends DynamoClient {
   async getOne(id: string): Promise<Stock> {
@@ -23,13 +23,24 @@ export class StockTable extends DynamoClient {
   }
 
   async create(item: StockDto) {
-    const command = new PutCommand({
+    const command = this.generatePutCommand(item);
+
+    await this.documentClient.send(command);
+
+    return this.getOne(item.id);
+  }
+
+  generatePutCommand(item: StockDto) {
+    return new PutCommand({
       TableName: STOCK_TABLE,
       Item: { product_id: item.id, count: item.count },
     });
+  }
 
-    await this.documentClient.send(command);
-  
-    return this.getOne(item.id);
+  generatePlainCreateCommand(item: StockDto) {
+    return {
+      TableName: STOCK_TABLE,
+      Item: { product_id: item.id, count: item.count },
+    };
   }
 }

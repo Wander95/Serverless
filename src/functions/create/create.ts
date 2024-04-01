@@ -1,5 +1,6 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2, Handler } from 'aws-lambda';
 
+import { ProductStockTable } from '@/functions/product-stock';
 import { ProductTable } from '@/functions/product.table';
 import { StockTable } from '@/functions/stock.table';
 
@@ -14,18 +15,18 @@ export const handler: Handler = async (
       };
 
     const body = JSON.parse(event.body);
-    console.log(body.id);
+    console.log(body);
 
     const productTable = new ProductTable();
     const stockTable = new StockTable();
 
-    const productItem = await productTable.create(body);
-    const stockItem = await stockTable.create(body);
+    const productStockTable = new ProductStockTable(productTable, stockTable);
+    const product = await productStockTable.createWithTransaction({ product: body, stock: body });
 
     return {
       statusCode: 201,
       body: JSON.stringify({
-        payload: { ...stockItem, ...productItem },
+        payload: product,
         message: `Product Created`,
       }),
     };
@@ -33,7 +34,7 @@ export const handler: Handler = async (
     console.log(error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'bobo',  error })
+      body: JSON.stringify({ message: 'bobo', error }),
     };
   }
 };

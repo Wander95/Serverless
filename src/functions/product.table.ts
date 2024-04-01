@@ -1,5 +1,6 @@
-import { GetCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { GetCommand, PutCommand, ScanCommand, ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 import { DynamoClient } from './dynamodb';
+import { Stock } from './stock.table';
 import { PRODUCT_TABLE } from './tables';
 
 export type Product = {
@@ -8,6 +9,8 @@ export type Product = {
   title: string;
   price: number;
 };
+
+export type ProductStock = Product & Pick<Stock, 'count'>;
 
 export class ProductTable extends DynamoClient {
   async getOne(id: string): Promise<Product> {
@@ -20,10 +23,11 @@ export class ProductTable extends DynamoClient {
     return response.Item as Product;
   }
 
-  async scan(): Promise<Product[]> {
+  async scan(options?: ScanCommandInput): Promise<Product[]> {
     const command = new ScanCommand({
       // ProjectionExpression: "#Name, Color, AvgLifeSpan",
       // ExpressionAttributeNames: { "#Name": "Name" },
+      ...options,
       TableName: PRODUCT_TABLE,
     });
 
@@ -32,7 +36,18 @@ export class ProductTable extends DynamoClient {
   }
 
   async create(item: Product) {
-    const command = new PutCommand({
+    const command = this.generatePutCommand(item);
+
+    await this.documentClient.send(command);
+    return await this.getOne(item.id);
+  }
+
+  generatePutCommand(item: Product) {
+    return new PutCommand(this.generatePlainPutCommand(item));
+  }
+
+  generatePlainPutCommand(item: Product) {
+    return {
       TableName: PRODUCT_TABLE,
       Item: {
         id: item.id,
@@ -40,9 +55,6 @@ export class ProductTable extends DynamoClient {
         title: item.title,
         price: item.price,
       },
-    });
-
-    await this.documentClient.send(command);
-    return await this.getOne(item.id);
+    };
   }
 }

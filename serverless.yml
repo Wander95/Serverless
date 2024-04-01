@@ -40,7 +40,6 @@ provider:
             - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.STOCK_TABLE}"
 
-
 functions:
   get_all_products:
     handler: ./src/functions/get-all/get-all.handler
@@ -53,7 +52,7 @@ functions:
     handler: ./src/functions/get-by-id/get-by-id.handler
     events:
       - httpApi:
-          path: /api/products/{id+}
+          path: /api/products/{id}
           method: GET
 
   create_product:
