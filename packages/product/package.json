@@ -1,0 +1,30 @@
+{
+  "name": "@wanderdev/product",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsup src --dts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "yarn build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.540.0",
+    "@aws-sdk/lib-dynamodb": "^3.540.0",
+    "dotenv": "^16.4.5",
+    "@wanderdev/dynamodb": "workspace: *"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.30",
+    "esbuild": "^0.20.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3",
+    "tsup": "7.2.0"
+  }
+}

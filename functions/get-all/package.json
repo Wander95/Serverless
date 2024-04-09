@@ -1,0 +1,21 @@
+{
+  "name": "@wanderdev/get-all-products",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@wanderdev/product": "workspace: *",
+    "@wanderdev/stock": "workspace: *",
+    "@wanderdev/product-stock": "workspace: *"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.136",
+    "aws-lambda": "^1.0.7"
+  }
+}

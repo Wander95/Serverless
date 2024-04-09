@@ -1,6 +1,7 @@
 import { APIGatewayProxyEventV2, Callback, Context } from 'aws-lambda';
 import assert from 'node:assert';
-import { handler } from './get-all';
+
+import { handler } from './index';
 
 process.env.CUSTOM_VAR = 'test_value';
 describe('RoleService', () => {

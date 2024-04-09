@@ -1,7 +1,19 @@
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { faker } from '@faker-js/faker';
 import { ESLint } from 'eslint';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+
+const STOCK_TABLE = 'stock_table';
+
+const client = new DynamoDBClient({
+  // region: 'localhost',
+  endpoint: 'http://192.168.0.4:8000',
+
+});
+
+const docClient = DynamoDBDocumentClient.from(client);
 
 function createESLintInstance() {
   return new ESLint({ useEslintrc: true, fix: true });

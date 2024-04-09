@@ -1,6 +1,7 @@
 {
   "name": "serverless",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -40,6 +41,7 @@
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-esbuild": "^1.52.1",
     "serverless-offline": "^13.3.3",
+    "serverless-plugin-monorepo": "^0.11.0",
     "serverless-plugin-typescript": "^2.1.5",
     "serverless-tscpaths": "^0.0.8",
     "ts-jest": "^29.1.2",
@@ -51,5 +53,14 @@
     "@aws-sdk/client-dynamodb": "^3.540.0",
     "@aws-sdk/lib-dynamodb": "^3.540.0",
     "dotenv": "^16.4.5"
+  },
+  "workspaces": {
+    "packages": [
+      "functions/**",
+      "packages/**"
+    ],
+    "nohoist": [
+      "**"
+    ]
   }
 }

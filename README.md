@@ -21,3 +21,7 @@
 [Example with roles](https://github.com/alexdebrie/serverless-dynamodb-scanner)
 
 [Node serverless with roles](https://github.com/serverless/examples/tree/v3/aws-node-http-api-dynamodb)
+
+[Serverless: Validation error ... Member must satisfy regular expression pattern](https://stackoverflow.com/questions/72485488/serverless-validation-error-member-must-satisfy-regular-expression-pattern)
+
+[Serverless with Typescript in a monorepo? 4 ways to make it work.](https://insify.medium.com/serverless-with-typescript-in-a-monorepo-4-ways-to-make-it-work-4ea0b8f43608)

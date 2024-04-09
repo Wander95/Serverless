@@ -4,6 +4,7 @@ service: serverless-adoring-virus-lambda
 plugins:
   # - serverless-esbuild # used for compiling/packaging the Typescript code
   - serverless-plugin-typescript
+  - serverless-plugin-monorepo
   - serverless-tscpaths
   - serverless-dynamodb
   - serverless-offline # used for local execution
@@ -42,21 +43,21 @@ provider:
 
 functions:
   get_all_products:
-    handler: ./src/functions/get-all/get-all.handler
+    handler: ./functions/get-all/src/index.handler
     events:
       - httpApi:
           path: /api/products
           method: GET
 
   get_product_by_id:
-    handler: ./src/functions/get-by-id/get-by-id.handler
+    handler: ./functions/get-by-id/src/index.handler
     events:
       - httpApi:
           path: /api/products/{id}
           method: GET
 
   create_product:
-    handler: ./src/functions/create/create.handler
+    handler: ./functions/create/src/index.handler
     events:
       - httpApi:
           path: /api/products
