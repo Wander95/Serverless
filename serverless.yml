@@ -1,23 +1,33 @@
 # ./serverless.yml
-service: serverless-adoring-virus-lambda
+service: serverless-adoring-virus-product-lambda
 
 plugins:
   # - serverless-esbuild # used for compiling/packaging the Typescript code
   - serverless-plugin-typescript
   - serverless-tscpaths
-  - serverless-dynamodb
   - serverless-offline # used for local execution
-           
+
+
 provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
+  # * environment variables
   environment:
     PRODUCT_TABLE: product_table
     STOCK_TABLE: stock_table
+  # * http configuration
   httpApi:
     name: serverless-adoring-virus-lambda-http
     cors: true
+    authorizers:
+      customAuthorizer:
+        type: request
+        functionName: authorizer_function
+        name: custom_authorizer_function
+        # identitySource:
+        #   - $request.header.Authorization # this is ignored by serverless-offline but will default to the Authorization header anyway
+
   iam:
     role:
       statements:
@@ -40,25 +50,42 @@ provider:
             - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.STOCK_TABLE}"
 
+package:
+  individually: true
+
 functions:
+  authorizer_function:
+    handler: src/functions/authorizer/authorizer.handler
+    description: ${self:service} authorizer
+    name: authorizer_function
+    
+    #   - 
   get_all_products:
-    handler: ./src/functions/get-all/get-all.handler
+    name: get_all_products_function
+    handler: src/functions/get-all/get-all.handler
     events:
-      - httpApi:
+      - http:
           path: /api/products
           method: GET
+          authorizer: authorizer_function
+            # type: request
+          #   resultTtlInSeconds: 30
+          #   identitySource: method.request.header.Authorization
+          #   type: token
 
   get_product_by_id:
-    handler: ./src/functions/get-by-id/get-by-id.handler
+    name: get_product_by_id_function
+    handler: src/functions/get-by-id/get-by-id.handler
     events:
-      - httpApi:
+      - http:
           path: /api/products/{id}
           method: GET
 
   create_product:
-    handler: ./src/functions/create/create.handler
+    name: create_product_function
+    handler: src/functions/create/create.handler
     events:
-      - httpApi:
+      - http:
           path: /api/products
           method: POST
 
