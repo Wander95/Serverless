@@ -2,11 +2,13 @@
 service: serverless-adoring-virus-product-lambda
 
 plugins:
+  - serverless-dotenv-plugin
   # - serverless-esbuild # used for compiling/packaging the Typescript code
   - serverless-plugin-typescript
   - serverless-tscpaths
   - serverless-offline # used for local execution
 
+useDotenv: true
 
 provider:
   name: aws
@@ -15,16 +17,17 @@ provider:
   # * environment variables
   environment:
     PRODUCT_TABLE: product_table
-    STOCK_TABLE: stock_table
+    STOCK_TABLE: stock_table 
+    AUTHORIZATION_TOKEN: ${env:AUTHORIZATION_TOKEN}
   # * http configuration
   httpApi:
     name: serverless-adoring-virus-lambda-http
     cors: true
-    authorizers:
-      customAuthorizer:
-        type: request
-        functionName: authorizer_function
-        name: custom_authorizer_function
+    # authorizers:
+    #   customAuthorizer:
+    #     type: request
+    #     functionName: authorizer_function
+    #     name: custom_authorizer_function
         # identitySource:
         #   - $request.header.Authorization # this is ignored by serverless-offline but will default to the Authorization header anyway
 
@@ -59,7 +62,6 @@ functions:
     description: ${self:service} authorizer
     name: authorizer_function
     
-    #   - 
   get_all_products:
     name: get_all_products_function
     handler: src/functions/get-all/get-all.handler
