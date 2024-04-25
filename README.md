@@ -21,3 +21,12 @@
 [Example with roles](https://github.com/alexdebrie/serverless-dynamodb-scanner)
 
 [Node serverless with roles](https://github.com/serverless/examples/tree/v3/aws-node-http-api-dynamodb)
+
+[Lambda Development Workflow](https://www.reddit.com/r/aws/comments/odcqjc/lambda_development_workflow/)
+[What is your development workflow on AWS container or lambda services?](https://www.reddit.com/r/aws/comments/11alyj3/what_is_your_development_workflow_on_aws/)
+[How to set up local development environment for Lambda?](https://www.reddit.com/r/aws/comments/axmc8y/how_to_set_up_local_development_environment_for/)
+[Testing Lambdas Locally - Need Guidance](https://www.reddit.com/r/aws/comments/1absef7/testing_lambdas_locally_need_guidance/)
+[AWS CDK and how to deploy a Node.js lambda function using it](https://medium.com/@aayappareddy/aws-cdk-and-how-to-deploy-a-node-js-lambda-function-using-it-b9bba46d6834)
+[AWS Lambda - Development Environment?](https://www.reddit.com/r/aws/comments/acdm7m/aws_lambda_development_environment/)
+[What's the proper way to develop lambda functions and deploy to multiple environments?](https://www.reddit.com/r/aws/comments/ut0oiz/whats_the_proper_way_to_develop_lambda_functions/)
+[How to set up development environment for AWS Lambda?](https://stackoverflow.com/questions/55006476/how-to-set-up-development-environment-for-aws-lambda)

@@ -69,7 +69,9 @@ functions:
       - http:
           path: /api/products
           method: GET
-          authorizer: authorizer_function
+          authorizer: 
+            name: authorizer_function
+          cors: true
             # type: request
           #   resultTtlInSeconds: 30
           #   identitySource: method.request.header.Authorization
